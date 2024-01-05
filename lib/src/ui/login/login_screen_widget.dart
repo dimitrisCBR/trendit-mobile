@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:trendit/src/storage_helper.dart';
+import 'package:trendit/src/domain/storage_helper.dart';
+import 'package:trendit/src/ui/common/gradient_container_widget.dart';
+import 'package:trendit/src/ui/home/home_screen_widget.dart';
+import 'package:trendit/src/ui/settings/prefs.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -44,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // Function to simulate login request
-  Future<void> _performLogin() async {
+  Future<void> _performLogin(BuildContext context) async {
     setState(() {
       _isLoading = true; // Start the loading state
     });
@@ -57,29 +60,20 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false; // End the loading state after login request finishes
     });
 
-    await StorageHelper.saveString("username", email);
+    await StorageHelper.saveString(SETTINGS_EMAIL, email);
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => HomeScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned(
-            child: Container(
-                decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.blue,
-                  Colors.purple,
-                ],
-                // You can also specify stops for more complex gradients
-                // stops: [0.3, 0.7],
-              ),
-            )),
+            child: GradientContainer(),
           ),
           SingleChildScrollView(
             child: Column(
@@ -88,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.fromLTRB(30.0, 200.0, 30.0, 30.0),
                   child: Column(
                     children: <Widget>[
-                      _logoCircle(),
+                      _logoCircle(context),
                       const SizedBox(height: 32),
                       TextFormField(
                         controller: _emailController,
@@ -113,17 +107,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? null
                             : () {
                                 // Perform login when the button is enabled
-                                _performLogin();
+                                _performLogin(context);
                               },
                         child: _isLoading
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 3,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
+                                  strokeWidth: 3
                                 ),
                               )
                             : const Text(
@@ -138,9 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {},
                         child: const Text(
                           "Forgot Password?",
-                          style: TextStyle(
-                            color: Color.fromRGBO(143, 148, 251, 1),
-                          ),
                         ),
                       ),
                     ],
@@ -154,22 +142,37 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _logoCircle() {
+  _logoCircle(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    Color tint;
+    if (isDarkMode) {
+      tint = Colors.white; // Choose a color for dark mode
+    } else {
+      tint = Colors.black; // Choose a color for light mode
+    }
     return Center(
         child: Container(
             width: 150, // Adjust size as needed
             height: 150, // Adjust size as needed
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.blue, // Change the circle color here
+              color: Theme.of(context).colorScheme.onPrimary, // Change the circle color here
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ClipOval(
-                child: Image.asset(
-                  'assets/images/trendit_icon.png', // Replace with your asset image path
-                  fit: BoxFit.cover, // Adjust the fit as needed
-                ),
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    tint, // Tint color
+                    BlendMode.srcIn,
+                  ),
+                  child: Image.asset(
+                    'assets/images/trendit_icon.png',
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
+                )
               ),
             )));
   }

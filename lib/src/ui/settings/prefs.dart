@@ -1,0 +1,5 @@
+
+
+const String SETTINGS_KEY = 'FREQUENCY';
+const String SETTINGS_SET_KEY = 'FREQUENCY_UPDATED';
+const String SETTINGS_EMAIL = 'EMAIL';

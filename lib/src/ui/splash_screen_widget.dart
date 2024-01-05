@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:trendit/src/home_screen_widget.dart';
-import 'package:trendit/src/login_screen_widget.dart';
-import 'package:trendit/src/storage_helper.dart';
+import 'package:trendit/src/domain/storage_helper.dart';
+import 'package:trendit/src/ui/common/gradient_container_widget.dart';
+import 'package:trendit/src/ui/home/home_screen_widget.dart';
+import 'package:trendit/src/ui/login/login_screen_widget.dart';
 
+import 'settings/prefs.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,10 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkLoginStatus() async {
     // Add a bit delay so Splash doesn't flash
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
 
-    String? username = StorageHelper.getString("username");
+    String? username = StorageHelper.getString(SETTINGS_EMAIL);
     bool isLoggedIn = username?.isNotEmpty ?? false;
+
+    print("Username: ${username}");
 
     // Determine the starting page based on login status
     Navigator.of(context).pushReplacement(
@@ -33,9 +37,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
+    return Scaffold(
+      body: GradientContainer(
+        child: const Center(child: CircularProgressIndicator()),
       ),
     );
   }
