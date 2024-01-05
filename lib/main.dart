@@ -5,10 +5,12 @@ import 'package:trendit/src/ui/home/home_screen_widget.dart';
 import 'package:trendit/src/ui/login/login_screen_widget.dart';
 import 'package:trendit/src/ui/splash_screen_widget.dart';
 import 'package:trendit/src/ui/styles/color_schemes.dart';
+import 'package:trendit/src/util/config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageHelper.initialize();
+  await AppConfig.loadConfig();
   runApp(MyApp());
 }
 

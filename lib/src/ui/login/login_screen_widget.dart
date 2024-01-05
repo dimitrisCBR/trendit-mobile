@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:trendit/src/domain/api/api_service.dart';
+import 'package:trendit/src/domain/api/auth_request.dart';
 import 'package:trendit/src/domain/storage_helper.dart';
 import 'package:trendit/src/ui/common/gradient_container_widget.dart';
 import 'package:trendit/src/ui/home/home_screen_widget.dart';
 import 'package:trendit/src/ui/settings/prefs.dart';
+import 'package:trendit/src/util/dialogs.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,6 +15,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final APIService apiService = APIService.instance;
+
   bool _isButtonDisabled = true;
   bool _isLoading = false;
   final TextEditingController _emailController = TextEditingController();
@@ -51,20 +56,26 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = true; // Start the loading state
     });
-    final email = _emailController.text;
 
-    // Simulate a login request delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    setState(() {
-      _isLoading = false; // End the loading state after login request finishes
-    });
-
-    await StorageHelper.saveString(SETTINGS_EMAIL, email);
-
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => HomeScreen()),
-    );
+    try {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+      final String token = await apiService.login(AuthRequest(email: email, password: password));
+      print('Login successful');
+      await StorageHelper.saveString(SETTINGS_EMAIL, email);
+      await StorageHelper.saveString(SETTINGS_TOKEN, token);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => HomeScreen())
+      );
+    } catch (e) {
+      // Handle APIException
+      print('API Exception occurred: $e');
+      showAppDialog(context, "Login Error", e.toString(), () {});
+    } finally {
+      setState(() {
+        _isLoading = false; // End the loading state after login request finishes
+      });
+    }
   }
 
   @override
@@ -106,16 +117,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: _isButtonDisabled || _isLoading
                             ? null
                             : () {
-                                // Perform login when the button is enabled
                                 _performLogin(context);
                               },
                         child: _isLoading
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3
-                                ),
+                                child: CircularProgressIndicator(strokeWidth: 3),
                               )
                             : const Text(
                                 "Login",
@@ -161,19 +169,18 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ClipOval(
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    tint, // Tint color
-                    BlendMode.srcIn,
-                  ),
-                  child: Image.asset(
-                    'assets/images/trendit_icon.png',
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
-                )
-              ),
+                  child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  tint, // Tint color
+                  BlendMode.srcIn,
+                ),
+                child: Image.asset(
+                  'assets/images/trendit_icon.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              )),
             )));
   }
 }

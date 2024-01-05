@@ -43,3 +43,4 @@ flutter:
     - assets/images/
     - assets/images/flutter_logo.png
     - assets/images/trendit_icon.png
+    - assets/secrets_config.json

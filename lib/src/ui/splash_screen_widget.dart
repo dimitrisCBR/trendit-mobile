@@ -23,7 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     String? username = StorageHelper.getString(SETTINGS_EMAIL);
-    bool isLoggedIn = username?.isNotEmpty ?? false;
+    String? token = StorageHelper.getString(SETTINGS_TOKEN);
+    bool isLoggedIn = (username?.isNotEmpty ?? false) && (token?.isNotEmpty ?? false);
 
     print("Username: ${username}");
 
