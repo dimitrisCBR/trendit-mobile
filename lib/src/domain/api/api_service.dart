@@ -10,7 +10,7 @@ class APIService {
   late final String baseURL;
 
   APIService._internal() {
-    baseURL = AppConfig.baseUrl; // Initialize baseURL from AppConfig
+    baseURL = AppConfig.baseUrl;
   }
 
   Future<String> login(AuthRequest request) async {
@@ -36,12 +36,12 @@ class APIService {
       }
     } catch (e) {
       // Handle exceptions
-      throw APIException("Error during login: ${e}");
+      throw APIException("Error during login: $e");
     }
   }
 
-  Future<void> register(AuthRequest request) async {
-    final Uri url = Uri.parse('$baseURL/auth/login');
+  Future<String> register(AuthRequest request) async {
+    final Uri url = Uri.parse('$baseURL/auth/register');
     final Map<String, dynamic> body = {'email': request.email, 'password': request.password};
 
     try {
@@ -54,13 +54,16 @@ class APIService {
       );
 
       if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        final String token = jsonResponse['token'] as String;
+        return token;
       } else {
         // Handle errors or non-200 status codes
         throw APIException("Error during login with status code: ${response.statusCode}");
       }
     } catch (e) {
       // Handle exceptions
-      throw APIException("Error during login: ${e}");
+      throw APIException("Error during login: $e");
     }
   }
 }
