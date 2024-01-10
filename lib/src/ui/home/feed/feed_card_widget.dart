@@ -8,7 +8,7 @@ import 'package:trendit/src/util/utils.dart';
 class CustomExpansionTile extends StatefulWidget {
   final TrendStore store;
 
-  CustomExpansionTile(this.store);
+  const CustomExpansionTile(this.store, {super.key});
 
   @override
   _CustomExpansionTileState createState() => _CustomExpansionTileState();
@@ -23,10 +23,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
       child: Card(
         child: ExpansionTile(
           title: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Text(
               widget.store.getTrendCardTitle(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24.0,
               ),
             ),
@@ -42,9 +42,9 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
           children: [
             ListView.separated(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.store.trends?.length ?? 0,
-              separatorBuilder: (context, index) => Divider(
+              separatorBuilder: (context, index) => const Divider(
                 // color: Colors.blue, // Customize the color of the divider
                 thickness: 2.0, // Customize the thickness of the divider
                 indent: 16.0, // Customize the indent of the divider
@@ -53,7 +53,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               itemBuilder: (context, index) {
                 dynamic trendItem = widget.store.trends![index];
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: _createTrendRowWidget(trendItem),
                 );
               },

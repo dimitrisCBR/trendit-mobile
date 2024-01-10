@@ -5,7 +5,7 @@ class TrenditBannerWidget extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  TrenditBannerWidget(this.title, this.subtitle);
+  const TrenditBannerWidget(this.title, this.subtitle, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TrenditBannerWidget extends StatelessWidget {
             title,
             style: googleFontStyle(Theme.of(context).textTheme.headlineLarge),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             subtitle,
             style: googleFontStyle(Theme.of(context).textTheme.titleMedium),

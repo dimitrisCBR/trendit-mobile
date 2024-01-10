@@ -7,6 +7,8 @@ import 'package:trendit/src/ui/login/login_screen_widget.dart';
 import 'settings/prefs.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -29,16 +31,16 @@ class _SplashScreenState extends State<SplashScreen> {
     // Determine the starting page based on login status
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => isLoggedIn ? HomeScreen() : LoginScreen(),
+        builder: (_) => isLoggedIn ? const HomeScreen() : const LoginScreen(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: GradientContainer(
-        child: const Center(child: CircularProgressIndicator()),
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }

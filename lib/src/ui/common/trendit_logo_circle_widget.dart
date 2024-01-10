@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TrenditRoundLogo extends StatelessWidget {
+  const TrenditRoundLogo({super.key});
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;

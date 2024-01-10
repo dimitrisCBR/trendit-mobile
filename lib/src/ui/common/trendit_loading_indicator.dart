@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TrenditLoadingIndicator extends StatelessWidget {
   final double size;
 
-  TrenditLoadingIndicator(this.size);
+  const TrenditLoadingIndicator(this.size, {super.key});
 
   @override
   Widget build(BuildContext context) {

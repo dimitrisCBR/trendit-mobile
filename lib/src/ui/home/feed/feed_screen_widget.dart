@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:trendit/src/domain/api/api_exception.dart';
 import 'package:trendit/src/domain/model/trends_response.dart';
 import 'package:trendit/src/domain/trendit_repository.dart';
 import 'package:trendit/src/ui/common/trendit_banner_widget.dart';
@@ -12,7 +13,7 @@ class TrendsFeedWidget extends StatefulWidget {
   final String title = "Trendit";
   final String subtitle = "what is happening right now";
 
-  TrendsFeedWidget();
+  const TrendsFeedWidget({super.key});
 
   @override
   _TrendsFeedWidgetState createState() => _TrendsFeedWidgetState();
@@ -40,10 +41,7 @@ class _TrendsFeedWidgetState extends State<TrendsFeedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    double statusBarHeight = MediaQuery
-        .of(context)
-        .padding
-        .top;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
     return Scaffold(
         body: StreamBuilder<Trends?>(
             stream: viewModel.itemsStream,
@@ -66,15 +64,17 @@ class _TrendsFeedWidgetState extends State<TrendsFeedWidget> {
           if (index == 0) {
             return TrenditBannerWidget(widget.title, widget.subtitle);
           } else if (index == 1) {
-            return Padding(padding: EdgeInsets.symmetric(vertical: 8.0), child: CustomExpansionTile(trends.googleTrend));
+            return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: CustomExpansionTile(trends.googleTrend));
           } else if (index == 2) {
             return Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: CustomExpansionTile(trends.twitterTrend),
             );
           } else if (index == 3) {
             return Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: CustomExpansionTile(trends.youtubeTrend),
             );
           }
@@ -89,11 +89,20 @@ class _TrendsFeedWidgetState extends State<TrendsFeedWidget> {
           if (index == 0) {
             return TrenditBannerWidget(widget.title, widget.subtitle);
           } else if (index == 1) {
-            return TrenditErrorWidget(
-                errorMessage: "Something went wrong. Please try again later",
-                callback: () {
-                  _refreshList();
-                });
+            String message;
+            Object? e = snapshot.error;
+            if (e is APIException) {
+              message = e.message;
+            } else {
+              message = e.toString();
+            }
+            return Padding(
+                padding: const EdgeInsetsDirectional.only(top: 100),
+                child: TrenditErrorWidget(
+                    errorMessage: message,
+                    callback: () {
+                      _refreshList();
+                    }));
           }
           return null;
         },
@@ -106,7 +115,7 @@ class _TrendsFeedWidgetState extends State<TrendsFeedWidget> {
           if (index == 0) {
             return TrenditBannerWidget(widget.title, widget.subtitle);
           } else if (index == 1) {
-            return Padding(
+            return const Padding(
               padding: EdgeInsets.only(top: 200.0),
               child: TrenditLoadingIndicator(50.0),
             );
@@ -132,9 +141,8 @@ class TrendsViewModel {
       final trends = await _repo.fetchTrends();
       // Update the stream with the fetched data
       _itemsController.add(trends);
-    } catch (error, stacktrace) {
-      debugPrintStack(stackTrace: stacktrace);
-      _itemsController.addError("Failed to get trends from server", stacktrace);
+    } catch (error) {
+      _itemsController.addError(error);
     }
   }
 

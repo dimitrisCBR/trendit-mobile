@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class YoutubeVideoWidget extends StatelessWidget {
   final YoutubeTrend youtubeTrend;
 
-  YoutubeVideoWidget(this.youtubeTrend);
+  YoutubeVideoWidget(this.youtubeTrend, {super.key});
 
   final NumberFormat _compactNf = NumberFormat.compact();
 
@@ -17,32 +17,32 @@ class YoutubeVideoWidget extends StatelessWidget {
       children: [
         Text(
           youtubeTrend.title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         Image.network(
           youtubeTrend.thumbnailUrl,
           width: double.infinity,
           fit: BoxFit.cover,
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         Text(
           youtubeTrend.channelTitle,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),
         ),
-        SizedBox(height: 8.0),
+        const SizedBox(height: 8.0),
         Text(
             '${getFormattedTraffic(youtubeTrend.viewCount, "views")}, '
             '${getFormattedTraffic(youtubeTrend.likeCount, "likes")}, '
             '${getFormattedTraffic(youtubeTrend.commentCount, "comments")}',
-            style: TextStyle(fontSize: 14.0)),
-        SizedBox(height: 8.0),
+            style: const TextStyle(fontSize: 14.0)),
+        const SizedBox(height: 8.0),
       ],
     );
   }

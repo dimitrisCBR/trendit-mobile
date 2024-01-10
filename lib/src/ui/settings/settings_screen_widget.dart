@@ -30,7 +30,7 @@ extension SettingsFrequencyCodes on SettingsFrequency {
 
 class SettingsScreen extends StatefulWidget {
 
-  SettingsScreen();
+  const SettingsScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _SettingsScreenState();
@@ -60,9 +60,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } else {
       saveSharedPref(SettingsFrequency.often);
     }
-    var _versionInfo = await loadPackageInfo();
+    var versionInfo = await loadPackageInfo();
     setState(() {
-      versionInfo = _versionInfo;
+      versionInfo = versionInfo;
     });
   }
 
@@ -97,7 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         body: ListView(children: [
       TrenditBannerWidget("Settings", versionInfo),
       Padding(
-          padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+          padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
           child: Text(
             'How often would you like to receive updates?',
             style: googleFontStyle(Theme.of(context).textTheme.titleLarge),
@@ -141,19 +141,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           }
         },
       ),
-      SizedBox(height: 16.0),
+      const SizedBox(height: 16.0),
       ElevatedButton(
         onPressed: () {
           sendEmail();
         },
-        child: Text('Contact Us'),
+        child: const Text('Contact Us'),
       ),
-      SizedBox(height: 8.0),
+      const SizedBox(height: 8.0),
       ElevatedButton(
         onPressed: () {
           launchURL(URL_PRIVACY_TERMS);
         },
-        child: Text('Terms of Use'),
+        child: const Text('Terms of Use'),
       ),
       const SizedBox(height: 8.0),
       ElevatedButton(
@@ -161,10 +161,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           StorageHelper.remove(SETTINGS_EMAIL);
           // TODO PERFORM LOGOUT AND GO TO SPLASH
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => SplashScreen()),
+            MaterialPageRoute(builder: (_) => const SplashScreen()),
           );
         },
-        child: Text('Logout'),
+        child: const Text('Logout'),
       )
     ]));
   }

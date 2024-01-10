@@ -6,7 +6,7 @@ import 'package:trendit/src/util/text_utils.dart';
 class GoogleItemWidget extends StatelessWidget {
   final GoogleTrend googleTrend;
 
-  GoogleItemWidget({
+  GoogleItemWidget({super.key, 
     required this.googleTrend,
   });
 
@@ -45,22 +45,22 @@ class GoogleItemWidget extends StatelessWidget {
                 Text(
                   googleTrend.title,
                   maxLines: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.0,
                   ),
                 ),
-                SizedBox(height: 4.0),
+                const SizedBox(height: 4.0),
                 Text(
                   getFormattedTraffic(googleTrend.volume, "searches"),
                   maxLines: 1,
-                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 4.0),
+                const SizedBox(height: 4.0),
                 Text(
                   googleTrend.snippet,
                   maxLines: 2,
-                  style: TextStyle(fontSize: 14.0),
+                  style: const TextStyle(fontSize: 14.0),
                 )
               ],
             ),

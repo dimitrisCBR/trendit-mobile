@@ -11,10 +11,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageHelper.initialize();
   await AppConfig.loadConfig();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     ThemeData baseLightTheme = ThemeData(
@@ -36,10 +38,10 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
       routes: {
-        '/login': (context) => LoginScreen(),
-        '/main': (context) => HomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/main': (context) => const HomeScreen(),
       },
     );
   }

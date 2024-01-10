@@ -10,6 +10,8 @@ import 'package:trendit/src/ui/settings/prefs.dart';
 import 'package:trendit/src/util/dialogs.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _LoginScreenState();
@@ -66,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Login successful');
       await StorageHelper.saveString(SETTINGS_EMAIL, email);
       await StorageHelper.saveString(SETTINGS_TOKEN, token);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
     } catch (e) {
       // Handle APIException
       print('API Exception occurred: $e');
@@ -83,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
+          const Positioned(
             child: GradientContainer(),
           ),
           SingleChildScrollView(
@@ -93,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.fromLTRB(30.0, 200.0, 30.0, 30.0),
                   child: Column(
                     children: <Widget>[
-                      TrenditRoundLogo(),
+                      const TrenditRoundLogo(),
                       const SizedBox(height: 32),
                       TextFormField(
                         controller: _emailController,
@@ -136,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (_) => SignUpScreen()));
+                              .push(MaterialPageRoute(builder: (_) => const SignUpScreen()));
                         },
                         child: const Text(
                           "Sign up",

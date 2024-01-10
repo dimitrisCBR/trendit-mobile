@@ -74,7 +74,7 @@ class APIService {
     final Uri url = Uri.parse('$baseURL/trends/latest');
 
     try {
-      final String? jwt = await StorageHelper.getString(SETTINGS_TOKEN);
+      final String? jwt = StorageHelper.getString(SETTINGS_TOKEN);
       if (jwt == null || jwt.isEmpty) {
         throw APIException("Unable to authenticate with server");
       }
@@ -111,8 +111,10 @@ class APIService {
         throw APIException("Error during fetching trends with status code: ${response.statusCode}");
       }
     } catch (e) {
-      print(e);
-      throw APIException("Error during fetching trends: $e");
+      if(e is APIException) {
+        rethrow;
+      }
+      throw APIException(e.toString());
     }
   }
 }

@@ -19,11 +19,11 @@ sendEmail() async {
   }
 }
 
-void launchURL(String _url) async {
+void launchURL(String url) async {
   try {
-    var uri = Uri.parse(_url);
+    var uri = Uri.parse(url);
     var canLaunchLink = await canLaunchUrl(uri);
-    debugPrint('can launch: $canLaunchLink from $_url');
+    debugPrint('can launch: $canLaunchLink from $url');
     await launchUrl(uri, mode: LaunchMode.platformDefault);
   } catch (_, __) {
     debugPrint('failure: $_ , $__');
@@ -32,11 +32,11 @@ void launchURL(String _url) async {
 
 Future<String> loadPackageInfo() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  var _versionInfo = "v.${packageInfo.version}";
+  var versionInfo = "v.${packageInfo.version}";
   if (kReleaseMode) {
-    _versionInfo = _versionInfo + "R";
+    versionInfo = "${versionInfo}R";
   } else {
-    _versionInfo = _versionInfo + "D";
+    versionInfo = "${versionInfo}D";
   }
-  return Future.value(_versionInfo);
+  return Future.value(versionInfo);
 }

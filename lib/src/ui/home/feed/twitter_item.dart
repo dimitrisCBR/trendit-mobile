@@ -7,7 +7,7 @@ import 'package:trendit/src/util/text_utils.dart';
 class TwitterItem extends StatelessWidget {
   final TwitterTrend twitterTrend;
 
-  TwitterItem({required this.twitterTrend});
+  TwitterItem({super.key, required this.twitterTrend});
 
   final NumberFormat _compactNf = NumberFormat.compact();
 
@@ -57,7 +57,7 @@ class TwitterItem extends StatelessWidget {
 
       return Expanded(
         child: Padding(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: ChipRowWidget(chipText: chips),
         ),
       );

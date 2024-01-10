@@ -9,6 +9,8 @@ import 'package:trendit/src/ui/settings/prefs.dart';
 import 'package:trendit/src/util/dialogs.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _SignUpScreenState();
@@ -38,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
+          const Positioned(
             child: GradientContainer(),
           ),
           SingleChildScrollView(
@@ -48,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: const EdgeInsets.fromLTRB(30.0, 200.0, 30.0, 30.0),
                   child: Column(
                     children: <Widget>[
-                      TrenditRoundLogo(),
+                      const TrenditRoundLogo(),
                       const SizedBox(height: 32),
                       Form(
                         key: _formKey,
@@ -157,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         await StorageHelper.saveString(SETTINGS_TOKEN, token);
 
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => HomeScreen()),
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
           (route) => false,
         );
       } catch (e) {
