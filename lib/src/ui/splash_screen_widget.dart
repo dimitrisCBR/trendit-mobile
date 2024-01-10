@@ -26,8 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
     String? token = StorageHelper.getString(SETTINGS_TOKEN);
     bool isLoggedIn = (username?.isNotEmpty ?? false) && (token?.isNotEmpty ?? false);
 
-    print("Username: ${username}");
-
     // Determine the starting page based on login status
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(

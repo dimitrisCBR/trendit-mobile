@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:trendit/src/domain/api/api_exception.dart';
-import 'package:trendit/src/domain/api/auth_request.dart';
+import 'package:trendit/src/domain/model/auth_request.dart';
+import 'package:trendit/src/domain/model/trends_response.dart';
+import 'package:trendit/src/domain/storage_helper.dart';
+import 'package:trendit/src/ui/settings/prefs.dart';
 import 'package:trendit/src/util/config.dart';
 
 class APIService {
@@ -64,6 +67,52 @@ class APIService {
     } catch (e) {
       // Handle exceptions
       throw APIException("Error during login: $e");
+    }
+  }
+
+  Future<Trends> fetchTrends() async {
+    final Uri url = Uri.parse('$baseURL/trends/latest');
+
+    try {
+      final String? jwt = await StorageHelper.getString(SETTINGS_TOKEN);
+      if (jwt == null || jwt.isEmpty) {
+        throw APIException("Unable to authenticate with server");
+      }
+      final Map<String, String> headers = {
+        'Authorization': 'Bearer $jwt',
+        // Add other headers as needed
+      };
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(utf8.decode(response.bodyBytes));
+
+        final googleTrendsJson = responseData[TrendKey.google.value].toList();
+        final List<GoogleTrend> googleTrends = googleTrendsJson
+            .map<GoogleTrend>((trendJson) => GoogleTrend.fromJson(trendJson))
+            .toList();
+
+        final twitterTrendsJson = responseData[TrendKey.twitter.value].toList();
+        final List<TwitterTrend> twitterTrends = twitterTrendsJson.map<TwitterTrend>((trendJson) {
+          print(trendJson);
+          return TwitterTrend.fromJson(trendJson);
+        }).toList();
+
+        final youtubeTrendsJson = responseData[TrendKey.youtube.value].toList();
+        final List<YoutubeTrend> youtubeTrends = youtubeTrendsJson
+            .map<YoutubeTrend>((trendJson) => YoutubeTrend.fromJson(trendJson))
+            .toList();
+
+        return Future.value(Trends(
+            TrendStore(TrendKey.google, googleTrends),
+            TrendStore(TrendKey.twitter, twitterTrends),
+            TrendStore(TrendKey.youtube, youtubeTrends)));
+      } else {
+        throw APIException("Error during fetching trends with status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print(e);
+      throw APIException("Error during fetching trends: $e");
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trendit/src/ui/home/feed_screen_widget.dart';
+import 'package:trendit/src/ui/home/feed/feed_screen_widget.dart';
 import 'package:trendit/src/ui/settings/settings_screen_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,7 +11,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    FeedPage(),
+    TrendsFeedWidget(),
     SettingsScreen(),
   ];
 

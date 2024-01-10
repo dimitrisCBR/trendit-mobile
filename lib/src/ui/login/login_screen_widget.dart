@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trendit/src/domain/api/api_service.dart';
-import 'package:trendit/src/domain/api/auth_request.dart';
+import 'package:trendit/src/domain/model/auth_request.dart';
 import 'package:trendit/src/domain/storage_helper.dart';
 import 'package:trendit/src/ui/common/gradient_container_widget.dart';
 import 'package:trendit/src/ui/common/trendit_logo_circle_widget.dart';
