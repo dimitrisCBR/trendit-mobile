@@ -6,8 +6,7 @@ import 'package:trendit/src/ui/splash_screen_widget.dart';
 import 'package:trendit/src/ui/styles/text_styles.dart';
 import 'package:trendit/src/util/utils.dart';
 
-const URL_PRIVACY_TERMS =
-    "https://imperius.xyz/wp-content/uploads/2022/08/TRENDIT_TERMS_PRIVACY.pdf";
+const URL_PRIVACY_TERMS = "https://gist.github.com/dimitrisCBR/e1da1b08acf9359686d01226ac021e96";
 
 enum SettingsFrequency {
   often,
@@ -29,7 +28,6 @@ extension SettingsFrequencyCodes on SettingsFrequency {
 }
 
 class SettingsScreen extends StatefulWidget {
-
   const SettingsScreen({super.key});
 
   @override
@@ -153,18 +151,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onPressed: () {
           launchURL(URL_PRIVACY_TERMS);
         },
-        child: const Text('Terms of Use'),
+        child: const Text('Privacy policy'),
       ),
       const SizedBox(height: 8.0),
       ElevatedButton(
         onPressed: () {
           StorageHelper.remove(SETTINGS_EMAIL);
-          // TODO PERFORM LOGOUT AND GO TO SPLASH
+          StorageHelper.remove(SETTINGS_TOKEN);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const SplashScreen()),
           );
         },
         child: const Text('Logout'),
+      ),
+      const SizedBox(
+        height: 8.0,
+      ),
+      ElevatedButton(
+        onPressed: () {
+
+          StorageHelper.remove(SETTINGS_EMAIL);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => const SplashScreen()),
+          );
+        },
+        child: const Text('Delete account'),
       )
     ]));
   }

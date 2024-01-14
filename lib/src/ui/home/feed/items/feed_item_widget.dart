@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:trendit/src/domain/model/trends_response.dart';
-import 'package:trendit/src/ui/home/feed/google_item.dart';
-import 'package:trendit/src/ui/home/feed/twitter_item.dart';
-import 'package:trendit/src/ui/home/feed/youtube_item.dart';
+import 'package:trendit/src/ui/home/feed/items/google_item.dart';
+import 'package:trendit/src/ui/home/feed/items/twitter_item.dart';
+import 'package:trendit/src/ui/home/feed/items/youtube_item.dart';
 import 'package:trendit/src/util/utils.dart';
 
-class CustomExpansionTile extends StatefulWidget {
+class FeedExpansionTileWidget extends StatefulWidget {
   final TrendStore store;
 
-  const CustomExpansionTile(this.store, {super.key});
+  const FeedExpansionTileWidget(this.store, {super.key});
 
   @override
-  _CustomExpansionTileState createState() => _CustomExpansionTileState();
+  _FeedExpansionTileWidgetState createState() => _FeedExpansionTileWidgetState();
 }
 
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
+class _FeedExpansionTileWidgetState extends State<FeedExpansionTileWidget> {
   bool _isExpanded = false;
 
   @override

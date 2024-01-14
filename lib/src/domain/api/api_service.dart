@@ -94,7 +94,6 @@ class APIService {
 
         final twitterTrendsJson = responseData[TrendKey.twitter.value].toList();
         final List<TwitterTrend> twitterTrends = twitterTrendsJson.map<TwitterTrend>((trendJson) {
-          print(trendJson);
           return TwitterTrend.fromJson(trendJson);
         }).toList();
 

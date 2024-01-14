@@ -7,7 +7,7 @@ import 'package:trendit/src/domain/trendit_repository.dart';
 import 'package:trendit/src/ui/common/trendit_banner_widget.dart';
 import 'package:trendit/src/ui/common/trendit_error_widget.dart';
 import 'package:trendit/src/ui/common/trendit_loading_indicator.dart';
-import 'package:trendit/src/ui/home/feed/feed_card_widget.dart';
+import 'package:trendit/src/ui/home/feed/items/feed_item_widget.dart';
 
 class TrendsFeedWidget extends StatefulWidget {
   final String title = "Trendit";
@@ -66,16 +66,16 @@ class _TrendsFeedWidgetState extends State<TrendsFeedWidget> {
           } else if (index == 1) {
             return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomExpansionTile(trends.googleTrend));
+                child: FeedExpansionTileWidget(trends.googleTrend));
           } else if (index == 2) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: CustomExpansionTile(trends.twitterTrend),
+              child: FeedExpansionTileWidget(trends.twitterTrend),
             );
           } else if (index == 3) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: CustomExpansionTile(trends.youtubeTrend),
+              child: FeedExpansionTileWidget(trends.youtubeTrend),
             );
           }
           return null;
